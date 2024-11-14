@@ -27,3 +27,6 @@ This chatbot utilizes data from popular APIs to keep users informed of the lates
 
 # Testing
 Use tools like Postman to test the endpoints and verify the chatbot’s responses.
+
+# Repo link of CryptoTrading-AIChatBot-Frontend
+https://github.com/Shubhtiwari29/CryptoTrading-AIChatBot-Frontend
