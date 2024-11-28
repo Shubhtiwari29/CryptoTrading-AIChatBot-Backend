@@ -3,7 +3,7 @@ package com.chatbot.dto;
 import java.util.Date;
 
 public class CoinDto {
-
+	// ALL THESE FIELD WILL GET DATA FROM API DATA, FETCHED USING COINGECKO API KEy.
 	private String id;
 	private String name;
 	private String symbol;

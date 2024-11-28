@@ -30,11 +30,14 @@ public class ChatbotServiceImpl implements ChatbotService {
 		} else
 			throw new IllegalArgumentException("unsupported type" + value.getClass().getName());
 	}
-
+	//This method extracts the currency name from the user's input prompt.
 	public CoinDto fetchCurrenyData(String currencyName) throws Exception {
 
+		/*This method fetches cryptocurrency data from the CoinGecko API and stores it in a Map
+		so you can extract the necessary information and set it in the CoinDto object.*/
+
 		String url = "https://api.coingecko.com/api/v3/coins/"+currencyName;
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate(); //TO MAKE HTTP API REQUEST.
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -149,6 +152,12 @@ public class ChatbotServiceImpl implements ChatbotService {
 		return res;
 	}
 
+
+	/*BELOW METHOD Takes a user prompt
+	Sends this data to Gemini API to generate a user-friendly response.
+	The generated response is then fetched from the CoinGecko API using the fetched currency name.
+	The fetched data is then returned as an ApiResponse object.
+	Returns the AI-generated response as an ApiResponse object.*/
 	@Override
 	public ApiResponse getCoinDetails(String prompt) throws Exception {
 		FunctionResponse res = getFunctionResponse(prompt);
@@ -156,8 +165,10 @@ public class ChatbotServiceImpl implements ChatbotService {
 		
 
 		String GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key="
-				+ GEMINI_API_KEY;
-
+				+ GEMINI_API_KEY; //This sets the Gemini API URL using the API key GEMINI_API_KEY.
+		                         // This URL is used to send a POST request to generate AI content based on the cryptocurrency data.
+		                        //The Gemini API returns a generated response (e.g., "Bitcoin is the largest cryptocurrency by market cap..."),
+								// which is extracted and returned as ApiResponse.
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -231,7 +242,13 @@ public class ChatbotServiceImpl implements ChatbotService {
 		return answer;
 	}
 
-// SIMPLE CHAT	
+/* SIMPLE CHAT
+ 	Takes a user prompt as input.
+	Sends the prompt to the Gemini API.
+	Returns the response from the API as a string.
+	This method is useful for general conversational interactions with the AI model,
+ 	allowing it to generate responses to simple queries or chat inputs.*/
+
 	@Override
 	public String simpleChat(String prompt) {
 
@@ -254,3 +271,22 @@ public class ChatbotServiceImpl implements ChatbotService {
 	}
 
 }
+
+/*NOTES ->
+* RestTemplate is a class provided by Spring Framework to simplify making HTTP requests to RESTful web services.
+* Here, new RestTemplate() creates an instance of RestTemplate that can be used to send HTTP requests (like GET, POST, PUT, etc.)
+* and receive responses.
+* It's responsible for managing the underlying HTTP connection, handling response codes, and parsing the response body.
+*
+* HttpHeaders is a class used to represent the HTTP headers in a request.
+* In this case, an empty HttpHeaders object is created. If you needed to add any custom headers (e.g., API keys, content type, etc.),
+* you would set them here.
+*
+* HttpEntity is a helper class that represents an HTTP request or response entity, including headers and the body.
+Here, it's wrapping the headers object created earlier.
+Since no body is provided (HttpEntity<String> with no body), this represents an HTTP request with only headers.
+* Map.class tells Spring to convert the JSON response into a Map<String, Object> where:
+The keys are the JSON field names.
+The values are the corresponding JSON values.
+*responseEntity.getBody() retrieves the body of the HTTP response, which contains the actual data returned by the API.
+This body is returned as a Map<String, Object>, where you can access the different fields of the JSON response using their keys. */

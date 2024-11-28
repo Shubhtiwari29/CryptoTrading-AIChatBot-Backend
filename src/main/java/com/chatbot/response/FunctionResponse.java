@@ -1,5 +1,7 @@
 package com.chatbot.response;
 
+/*This class is designed to store the output from an AI-based API (Gemini) and then be used in further processing,
+ like fetching additional cryptocurrency details from a secondary API (CoinGecko).*/
 public class FunctionResponse {
 	
 	private String currencyName;
