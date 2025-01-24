@@ -11,10 +11,9 @@ import com.chatbot.response.ApiResponse;
 public class HomeController {
 	
 	@GetMapping("/")
-	public ResponseEntity<ApiResponse>homeController(){
+	public ResponseEntity<ApiResponse>homeController() {
 		ApiResponse response = new ApiResponse();
 		response.setMessage("Welcome To Chatbot");
-		return new ResponseEntity<>(response,HttpStatus.OK);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
 }
